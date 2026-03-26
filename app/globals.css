@@ -1,0 +1,114 @@
+@import "tailwindcss";
+
+@media print {
+    @page {
+        size: A4 portrait;
+        margin: 0;
+    }
+
+    body {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        background: white !important;
+        width: 210mm;
+        height: 297mm;
+        margin: 0;
+        padding: 0;
+    }
+    
+    /* Hide UI elements */
+    header, footer, .print\:hidden, #back-btn, .flex-wrap, .flex-col.gap-4 {
+        display: none !important;
+    }
+
+    /* Remove Watermarks from the printed document completely */
+    .watermark-preview, 
+    .watermark-payment {
+        display: none !important;
+    }
+
+    #preview-view {
+        padding: 0 !important;
+        margin: 0 !important;
+        display: block !important;
+        background: white !important;
+        width: 100% !important;
+        height: auto !important;
+        overflow: visible !important;
+    }
+
+    /* 
+      Precision Scaling for Perfect A4 Alignment
+      Using zoom instead of transform fixes page-break issues in Chrome/Android 
+    */
+    #card-scaling-wrapper {
+        display: block !important;
+        transform: none !important;
+        zoom: 1 !important; /* Adjusted scale for new 350px × 590px dimensions */
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    /* FORCE PAGE 1 TO SHOW AND BREAK AFTER IT */
+    #page1-layout {
+        display: flex !important;
+        justify-content: center !important;
+        gap: 30px !important; 
+        margin-top: 15mm !important; /* Perfect space from top edge */
+        page-break-after: always !important; /* Force second page */
+        break-after: page !important;
+    }
+
+    /* FORCE PAGE 2 TO SHOW ON THE NEXT PAGE */
+    #page2-layout {
+        display: flex !important;
+        justify-content: center !important;
+        gap: 30px !important; 
+        margin-top: 15mm !important; /* Same top margin as page 1 */
+    }
+
+    /* Keeps Thick Border for Printing */
+    .card-panel-1, .card-panel-2 {
+        box-shadow: none !important;
+        margin: 0 !important;
+        border: 2px solid black !important;
+    }
+}
+
+/* Base Exact Card Size (Applies to Screen & Print) */
+.card-panel-1 {
+    width: 370px;
+    height: 585px;
+    min-width: 370px;
+    min-height: 585px;
+}
+
+.card-panel-2 {
+    width: 370px;
+    height: 585px;
+    min-width: 370px;
+    min-height: 585px;
+}
+
+/* Ensure Inner Tables have tight, perfect thin borders */
+table {
+    border-spacing: 0;
+}
+th, td {
+    padding-top: 2px !important;
+    padding-bottom: 2px !important;
+}
+
+/* Smooth transitions */
+.transition-all {
+    transition: all 0.3s ease;
+}
+
+/* Hide scrollbars for clean UI */
+#preview-view::-webkit-scrollbar {
+    display: none;
+}
+#preview-view {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
